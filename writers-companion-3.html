@@ -1506,5 +1506,142 @@ ${excerpt}
 
   loadLibrary();
 </script>
+  
+  
+  <div id="cover-generator" style="padding: 20px; background: #fff; border-radius: 8px; margin: 20px auto; font-family: sans-serif; max-width: 500px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); text-align: left;">
+    <h3 style="margin-top: 0; color: #333;">🎨 Book Cover Studio</h3>
+    
+    <label style="font-weight: bold; color: #555;">Choose a Ready-Made Style Setup:</label>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px; margin-bottom: 15px;">
+        <button type="button" onclick="applyPreset('The Lost Kingdom', 'Dark fantasy castle, misty mountains, epic cinematic lighting, oil painting style', 'Dark Fantasy')" style="background: #2D3748; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px;">🏰 Dark Fantasy</button>
+        <button type="button" onclick="applyPreset('Love in the Rain', 'Romantic watercolor painting, couple under an umbrella, soft pink and gold tones', 'Romance')" style="background: #ED64A6; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px;">💖 Romance</button>
+        <button type="button" onclick="applyPreset('Neon Horizon', 'Cyberpunk city skyline at night, glowing neon lights, futuristic spaceship, sci-fi art', 'Sci-Fi')" style="background: #3182CE; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px;">🚀 Sci-Fi Thriller</button>
+        <button type="button" onclick="applyPreset('The Secret Diary', 'Cozy cottage garden, vintage books and old keys on a wooden table, warm sunlight', 'Mystery')" style="background: #319795; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px;">🔍 Cozy Mystery</button>
+    </div>
+
+    <label style="font-weight: bold; color: #555;">Image Prompt (Describe background artwork):</label><br>
+    <input type="text" id="coverPrompt" placeholder="e.g., A lone wolf under a full moon, digital art" style="width: 100%; padding: 8px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"><br>
+    
+    <label style="font-weight: bold; color: #555;">Book Title:</label><br>
+    <input type="text" id="coverTitle" placeholder="Enter Book Title" style="width: 100%; padding: 8px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"><br>
+    
+    <label style="font-weight: bold; color: #555;">Author Name:</label><br>
+    <input type="text" id="coverAuthor" placeholder="Your Name" style="width: 100%; padding: 8px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"><br>
+    
+    <button type="button" onclick="generateAICover()" style="background: #4A90E2; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%;">Generate Custom Layout</button>
+
+    <div id="coverOutputContainer" style="position: relative; width: 320px; height: 480px; margin: 20px auto 0 auto; display: none; overflow: hidden; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+        <img id="coverBgImage" style="width: 100%; height: 100%; object-fit: cover; background: #222;" src="" alt="AI Art Layer">
+        <div id="overlayTitle" style="position: absolute; top: 12%; left: 5%; width: 90%; text-align: center; color: white; font-family: 'Georgia', serif; font-size: 28px; text-shadow: 2px 2px 8px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.5); font-weight: bold; line-height: 1.2;"></div>
+        <div id="overlayAuthor" style="position: absolute; bottom: 12%; left: 5%; width: 90%; text-align: center; color: white; font-family: 'Arial', sans-serif; font-size: 14px; text-shadow: 2px 2px 6px rgba(0,0,0,0.9); letter-spacing: 3px; text-transform: uppercase; font-weight: bold;"></div>
+    </div>
+</div>
+
+<div id="inspiration-board" style="padding: 25px; background: #f4eede; border-radius: 16px; margin: 30px auto; font-family: 'Georgia', serif; max-width: 500px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 2px solid #b8862f; text-align: left;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+        <h2 style="color: #23262b; margin: 0; font-size: 24px; letter-spacing: 1px;">🌍 Creative Mood Oasis</h2>
+        
+        <label for="camera-upload" style="background: linear-gradient(135deg, #b8862f, #9c3d3d); color: white; padding: 10px 18px; border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(156,61,61,0.3);">
+            <span>📷 Snap & Create</span>
+            <input type="file" id="camera-upload" accept="image/*" capture="environment" style="display: none;" onchange="handleUserSnap(event)">
+        </label>
+    </div>
+
+    <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; white-space: nowrap;">
+        <button type="button" onclick="loadAesthetic('ancient')" style="background: #23262b; color: #f4eede; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 12px;">⏳ Ancient</button>
+        <button type="button" onclick="loadAesthetic('men')" style="background: #23262b; color: #f4eede; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 12px;">🤵 Men</button>
+        <button type="button" onclick="loadAesthetic('modern')" style="background: #23262b; color: #f4eede; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 12px;">🍷 Wine & Modern</button>
+        <button type="button" onclick="loadAesthetic('scenery')" style="background: #23262b; color: #f4eede; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 12px;">🏎️ Landscapes & Cars</button>
+    </div>
+
+    <div id="inspiration-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px;"></div>
+
+    <div id="author-personal-deck" style="margin-top: 30px; padding-top: 20px; border-top: 2px dashed #b8862f;">
+        <h4 style="margin: 0 0 15px 0; color: #9c3d3d; letter-spacing: 1px;">👤 Your Personal Inspiration Vault</h4>
+        <div id="user-snapped-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;">
+            <p id="empty-vault-msg" style="color: #777; font-size: 13px; font-style: italic; margin: 0;">Your personal deck is empty. Tap "Snap & Create" to take a photo or upload from your device!</p>
+        </div>
+    </div>
+</div>
+
+<script>
+const aestheticDatabase = {
+    ancient: [
+        "https://images.unsplash.com/photo-1599733589046-10c005739ef9?w=400", 
+        "https://images.unsplash.com/photo-1608155686393-8fdd966d784d?w=400", 
+        "https://images.unsplash.com/photo-1543487945-139a97f386d5?w=400"
+    ],
+    men: [
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400", 
+        "https://images.unsplash.com/photo-1607990283143-e81e7a2c93ab?w=400"
+    ],
+    modern: [
+        "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400", 
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400"
+    ],
+    scenery: [
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400", 
+        "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400"
+    ]
+};
+
+function applyPreset(defaultTitle, artPrompt, genreName) {
+    document.getElementById('coverPrompt').value = artPrompt;
+    document.getElementById('coverTitle').value = defaultTitle;
+    document.getElementById('coverAuthor').value = "AN AUTHOR"; 
+    generateAICover();
+}
+
+function generateAICover() {
+    const prompt = document.getElementById('coverPrompt').value;
+    const title = document.getElementById('coverTitle').value;
+    const author = document.getElementById('coverAuthor').value;
+    if(!prompt) return alert("Please enter an art prompt!");
+    const encodedPrompt = encodeURIComponent(prompt);
+    const aiImageUrl = `https://image.pollinations.ai/p/${encodedPrompt}?width=640&height=960&seed=${Math.floor(Math.random() * 100000)}&nologo=true`;
+    const imgElement = document.getElementById('coverBgImage');
+    const container = document.getElementById('coverOutputContainer');
+    container.style.display = "block";
+    imgElement.src = aiImageUrl;
+    document.getElementById('overlayTitle').innerText = title;
+    document.getElementById('overlayAuthor').innerText = author;
+}
+
+function loadAesthetic(category) {
+    const grid = document.getElementById('inspiration-grid');
+    if(!grid) return;
+    grid.innerHTML = ""; 
+    aestheticDatabase[category].forEach(url => {
+        const imgCard = document.createElement('img');
+        imgCard.src = url;
+        imgCard.style.cssText = "width: 100%; height: 180px; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border: 2px solid #fff;";
+        grid.appendChild(imgCard);
+    });
+}
+
+function handleUserSnap(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const userGrid = document.getElementById('user-snapped-grid');
+        const fallbackMsg = document.getElementById('empty-vault-msg');
+        if(fallbackMsg) fallbackMsg.remove();
+        const userImgCard = document.createElement('div');
+        userImgCard.style.cssText = "position: relative; height: 120px; border-radius: 8px; overflow: hidden; border: 2px solid #b8862f;";
+        userImgCard.innerHTML = `
+            <img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">
+            <span style="position:absolute; bottom:0; left:0; width:100%; background:rgba(0,0,0,0.6); color:#fff; font-size:10px; text-align:center; padding:3px 0;">Captured</span>
+        `;
+        userGrid.insertBefore(userImgCard, userGrid.firstChild);
+    };
+    reader.readAsDataURL(file);
+}
+
+window.addEventListener('DOMContentLoaded', () => { loadAesthetic('ancient'); });
+</script>
+      </div>
+</div>
 </body>
 </html>
+
